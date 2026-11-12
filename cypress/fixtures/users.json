@@ -1,18 +1,31 @@
 {
-  "validUser": {
+  "testUser": {
     "email": "customer@practicesoftwaretesting.com",
     "password": "welcome01"
   },
-  "invalidUser": {
-    "email": "customer@practicesoftwaretesting.com",
-    "password": "wrongPassword123"
+  "wrongPassword": "PasswordIncorrecto123!",
+  "contactForm": {
+    "firstName": "Ana",
+    "lastName": "QATester",
+    "email": "ana.qatester@test.com",
+    "subject": "Consulta sobre herramientas",
+    "message": "Mensaje automatizado de prueba generado por Cypress. Quisiera consultar por la disponibilidad de llaves combinadas.",
+    "longMessage": "Este es un mensaje de prueba de borde generado por Cypress para validar el manejo de textos largos en el formulario de contacto. Este es un mensaje de prueba de borde generado por Cypress para validar el manejo de textos largos en el formulario de contacto. Este es un mensaje de prueba de borde generado por Cypress para validar el manejo de textos largos en el formulario de contacto. Este es un mensaje de prueba de borde generado por Cypress para validar el manejo de textos largos en el formulario de contacto. Este es un mensaje de prueba de borde generado por Cypress para validar el manejo de textos largos en el formulario de contacto. Este es un mensaje de prueba de borde generado por Cypress para validar el manejo de textos largos en el formulario de contacto. Este es un mensaje de prueba de borde generado por Cypress para validar el manejo de textos largos en el formulario de contacto. Este es un mensaje de prueba de borde generado por Cypress para validar el manejo de textos largos en el formulario de contacto. Este es un mensaje de prueba de borde generado por Cypress para validar el manejo de textos largos en el formulario de contacto. ",
+    "longMessageLength": 1161
   },
-  "contactData": {
-    "name": "Juan",
-    "lastname": "Pérez",
-    "email": "juan.perez@test.com",
-    "subject": "payments",
-    "message": "Este es un mensaje de prueba de contacto que cumple perfectamente con el mínimo de cincuenta caracteres requeridos."
+  "registration": {
+    "firstName": "Auto",
+    "lastName": "Tester",
+    "dob": "1990-01-15",
+    "street": "Calle Falsa 123",
+    "postalCode": "X5000",
+    "city": "Testville",
+    "state": "Cordoba",
+    "country": "Argentina",
+    "phone": "5551234567",
+    "password": "Secret123!"
+  },
+  "api": {
+    "baseUrl": "https://api-with-bugs.practicesoftwaretesting.com"
   }
 }
-

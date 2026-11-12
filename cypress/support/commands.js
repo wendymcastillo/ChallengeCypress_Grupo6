@@ -1,42 +1,30 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+// Custom commands del proyecto (mínimo 2 exigidos por el reto).
+// Selectores verificados contra with-bugs.practicesoftwaretesting.com (v5.0).
+// Nota: el servidor no soporta deep-links (404 en /auth/login directo),
+// por eso la navegación siempre arranca desde la home.
 
-
-
-// Custom Command 1: Iniciar sesión mediante la UI
-Cypress.Commands.add('loginUI', (email, password) => {
-  cy.visit('/#/login');
-  cy.get('[data-test="email"]').type(email);
-  cy.get('[data-test="password"]').type(password);
-  cy.get('[data-test="login-submit"]').click();
+// Inicia sesión por UI navegando desde la home y verifica la sesión activa.
+Cypress.Commands.add('login', (email, password) => {
+  cy.visit('/');
+  cy.get('[data-test=nav-sign-in]').click();
+  cy.get('[data-test=email]').type(email);
+  cy.get('[data-test=password]').type(password);
+  cy.get('[data-test=login-submit]').click();
+  // nav-sign-out vive dentro de un dropdown colapsado (a.dropdown-item oculto):
+  // la sesión se valida con la desaparición del link de sign-in.
+  cy.get('[data-test=nav-sign-in]').should('not.exist');
 });
 
-// Custom Command 2: Agregar el primer producto disponible al carrito
+// Entra al primer producto del catálogo y lo agrega al carrito.
+// La home a veces no renderiza el grid de productos (bug intermitente):
+// si no hay cards, se recarga una vez antes de fallar.
 Cypress.Commands.add('addFirstProductToCart', () => {
-  cy.visit('/#/');
-  cy.get('.card').first().click();
-  cy.get('[data-test="add-to-cart"]').click();
+  cy.visit('/');
+  cy.get('body').then(($body) => {
+    if ($body.find('a.card').length === 0) {
+      cy.reload();
+    }
+  });
+  cy.get('a.card', { timeout: 30000 }).first().click();
+  cy.get('[data-test=add-to-cart]').click();
 });

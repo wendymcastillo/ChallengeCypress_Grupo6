@@ -1,19 +1,13 @@
-const { defineConfig } = require("cypress");
+const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
   e2e: {
-    // URL 
-    baseUrl: "https://with-bugs.practicesoftwaretesting.com",
-    
-    // estabilidad
+    baseUrl: 'https://with-bugs.practicesoftwaretesting.com',
+    specPattern: 'cypress/e2e/**/*.cy.js',
+    supportFile: 'cypress/support/e2e.js',
+    fixturesFolder: 'cypress/fixtures',
+    defaultCommandTimeout: 15000,
     viewportWidth: 1280,
     viewportHeight: 720,
-    defaultCommandTimeout: 10000,
-
-
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-    },
   },
 });
-

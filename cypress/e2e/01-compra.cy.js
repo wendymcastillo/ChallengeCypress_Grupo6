@@ -1,65 +1,43 @@
-describe('Flujo 3.1: Compra exitosa', () => {
-  beforeEach(function () {
-    cy.fixture('users').as('userData');
-  });
+// Flujo 3.1 — Compra exitosa
+describe('3.1 Compra exitosa', () => {
+  it('agrega un producto, inicia sesión y confirma la compra', () => {
+    cy.fixture('users').then((data) => {
+      // 1. Home muestra productos
+      cy.visit('/');
+      cy.get('a.card').should('have.length.at.least', 1);
 
-  it('Debe completar el flujo de compra correctamente', function () {
-    // Entrar y agregar producto
-    cy.addFirstProductToCart();
-    
-    // Ir al carrito y verificar
-    cy.get('[data-test="nav-cart"]').click();
-    cy.get('.product-title').should('be.visible');
-    
-    // Iniciar sesión en el checkout o estar logueado
-    cy.get('[data-test="proceed-1"]').click();
-    cy.get('[data-test="email"]').type(this.userData.validUser.email);
-    cy.get('[data-test="password"]').type(this.userData.validUser.password);
-    cy.get('[data-test="login-submit"]').click();
+      // 2. Abrir el primer producto y agregarlo al carrito
+      cy.addFirstProductToCart();
 
-   // Avanzar al formulario de dirección
-    cy.get('[data-test="proceed-2"]').click();
-    
-    // 2. Llenar el país como un campo de texto normal
-    cy.get('[data-test="country"]')
-      .should('be.visible')
-      .clear()
-      .type('El Salvador');
+      // 3. Verificar que el producto está en el carrito
+      cy.get('[data-test=nav-cart]').click();
+      cy.get('.btn.btn-danger').should('be.visible');
+      cy.get('[data-test=cart-total]').should('be.visible');
 
-    // 3. Llenar el campo State
-    cy.get('[data-test="state"]')
-      .should('be.visible')
-      .clear()
-      .type('Cabañas');
+      // 4. Iniciar sesión con el usuario de prueba (datos del fixture)
+      cy.login(data.testUser.email, data.testUser.password);
 
-    // 4. Llenar el Código Postal
-    cy.get('[data-test="postcode"]')
-      .should('be.visible')
-      .clear()
-      .type('1101');
+      // 5. Avanzar por el checkout hasta confirmar
+      cy.get('[data-test=nav-cart]').click();
+      cy.get('[data-test=proceed-1]').click();
+      cy.get('[data-test=proceed-2]').click();
+      // Paso ADDRESS: proceed-3 queda disabled mientras el formulario sea inválido
+      cy.get('#address').clear().type('Test street 98');
+      cy.get('#city').clear().type('Vienna');
+      cy.get('#state').clear().type('Vienna State');
+      cy.get('#country').clear().type('Austria');
+      cy.get('#postcode').clear().type('1010');
+      cy.get('[data-test=proceed-3]').should('not.be.disabled').click();
+      // Paso PAYMENT: método de pago en un <select> + datos de cuenta
+      cy.get('select:visible').first().select(1);
+      cy.get('input[placeholder*="Account name"]').type('Test User');
+      cy.get('input[placeholder*="Account number"]').type('123456789');
+      cy.get('[data-test=finish]').click();
+      cy.get('[data-test=finish]').click();
 
-    // 5. Avanzar al paso de pago
-    cy.get('[data-test="proceed-3"]').click({ force: true });
-
-    // 6. Seleccionar el método de pago
-    cy.get('[data-test="payment-method"]').select('Cash on Delivery', { force: true });
-    
-    // 7. Rellenar los datos de la cuenta y confirmar
-    cy.get('[data-test="account-name"]').type('Mi Cuenta de Pruebas');
-    cy.get('[data-test="account-number"]').type('123456789');
-    cy.get('.btn-success').contains('Confirm').click();
-
-    // 8. Verificar éxito
-    cy.get('.alert-success').should('be.visible');
-
-
-  
-
-  
-
-  
-
-    
- 
+      // 6. Verificar la confirmación de la compra
+      cy.get('.alert-success, [data-test=payment-success-message]')
+        .should('be.visible');
+    });
   });
 });
