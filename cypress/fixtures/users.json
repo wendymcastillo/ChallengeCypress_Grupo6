@@ -1,0 +1,18 @@
+{
+  "validUser": {
+    "email": "customer@practicesoftwaretesting.com",
+    "password": "welcome01"
+  },
+  "invalidUser": {
+    "email": "customer@practicesoftwaretesting.com",
+    "password": "wrongPassword123"
+  },
+  "contactData": {
+    "name": "Juan",
+    "lastname": "Pérez",
+    "email": "juan.perez@test.com",
+    "subject": "payments",
+    "message": "Este es un mensaje de prueba de contacto que cumple perfectamente con el mínimo de cincuenta caracteres requeridos."
+  }
+}
+
