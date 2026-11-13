@@ -9,7 +9,5 @@
 
 | Nombre | Correo |
 |---|---|
-| Sebastian Medina | medinasebastian172@gmail.com |
 | Wendy Castillo | wendy.castillo@catolica.edu.sv |
-| Hugo Maximiliano Morales | maximilianohmorales@gmail.com |
 | Luis Sebastian Mendez | lsmndz9681@gmail.com |
